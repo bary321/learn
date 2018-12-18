@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页布局测试</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            background: #519AC3;
+        }
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+        .main_box {
+            float: left;
+            box-sizing: border-box;
+            /*border: 1px red solid; */
+            background: #ffffff;
+        }
+        .clearfix {
+            zoom: 1;
+        }
+        .clearfix::after {
+            content: "";
+            display: block;
+            visibility: hidden;
+            height: 0;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+<div class="all clearfix">
+    <div class="main_box top left" id="offline_box"><canvas id="offline"></canvas></div>
+    <div class="main_box top" id="all_box"><canvas id="all"></canvas></div>
+    <div class="main_box left" id="free_box"><canvas id="free"></canvas></div>
+    <div class="main_box ">
+        <form method="post" action="/status">
+            <p><label>用户名
+                <input type="text" name="useraccount" placeholder="用户名" autocomplete autofocus >
+            </label></p>
+            <p><label>设备ID
+                <input type="text" name="id" placeholder="设备ID" autocomplete>
+            </label></p>
+            <span style="display: none">{% module xsrf_form_html() %}</span>
+            <p><input type="submit" value="查询"></p>
+        </form>
+        <p><input id="n1" type="number" placeholder="50" min="0" step="1"><button id="getlog">获取日志</button></p>
+        <a href="{{ allurl }}">在线</a>
+        <a href="{{ nourl }}">不在线</a>
+        <a href="{{ oldurl }}">旧版主页</a>
+        <a href="{{ firewallurl }}">防火墙设置</a>
+        <a href="{{ loginurl }}">注销</a>
+    </div>
+</div>
+<script>
+    // 设置盒子的长宽
+    /*
+    var cw = document.documentElement.clientWidth;
+    var x = document.getElementsByClassName("main_box");
+    console.log("cw", cw);
+    for (i = 0; i < x.length; i ++)
+    {
+        x[i].style.width= cw/2 - 16 + "px";
+        x[i].style.height= (cw/2 -16)/2 + "px";
+    }
+    */
+    // 画图
+    /**
+     * @return {string}
+     */
+    function Get(yourUrl, callback){
+        var Httpreq = new XMLHttpRequest(); // a new request
+        Httpreq.open("GET",yourUrl,false);
+        Httpreq.send(null);
+        return Httpreq.responseText;
+    }
+
+    function httpGetAsync(theUrl, callback)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        }
+        xmlHttp.open("GET", theUrl, true); // true for asynchronous
+        xmlHttp.send(null);
+    }
+
+    function pushdata(label, data1, myChart) {
+        myChart.data.labels.push(label);
+        myChart.data.datasets[0].data.push(data1);
+
+    }
+
+    // var json_obj = JSON.parse(Get("http://222.188.110.76:18881/log/json?number=500"));
+
+    var reg = "ddd MMM DD HH:mm:ss gggg";
+
+    function update_con(num){
+        var all_ctx = document.getElementById('all').getContext("2d");
+        var all = new Chart(all_ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "摄像头总数",
+                    borderColor: "#80b6f4",
+                    fill: false,
+                    data: []
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        distribution: 'series',
+                        time: {
+                            displayFormats: {
+                                quarter: 'MMM YYYY'
+                            }}},
+                    ],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: '摄像头数目（个）'
+                        },
+                        ticks: {
+                            beginAtZero:false
+                        }
+                    }]
+                }
+            }
+        });
+
+        var offline_ctx = document.getElementById('offline').getContext("2d");
+        var offline = new Chart(offline_ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "摄像头掉线数",
+                    borderColor: "#80b6f4",
+                    fill: false,
+                    data: []
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        distribution: 'series',
+
+                        unit: 'day',
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: '摄像头数目（个）'
+                        },
+                        ticks: {
+                            beginAtZero:false
+                        }
+                    }]
+                }
+            }
+        });
+
+        var free_ctx = document.getElementById('free').getContext("2d");
+        var free = new Chart(free_ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "seaweedfs volume free的个数",
+                    borderColor: "#80b6f4",
+                    fill: false,
+                    data: []
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        distribution: 'series',
+
+                        unit: 'day',
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'seaweedfs volume(个)'
+                        },
+                        ticks: {
+                            beginAtZero:false
+                        }
+                    }]
+                },
+            }
+
+        });
+
+        function update_cam(text) {
+            var json_obj = JSON.parse(text);
+            for (i = 0; i < json_obj.data.length; i++)
+            {
+                pushdata(moment(json_obj.data[i].time, reg).valueOf(), json_obj.data[i].total, all);
+            }
+            all.update();
+
+            for (i = 0; i < json_obj.data.length; i++)
+            {
+                pushdata(moment(json_obj.data[i].time, reg).valueOf(), json_obj.data[i].offline, offline);
+            }
+            offline.update();
+        }
+
+        function update_free(text) {
+            var json_obj = JSON.parse(text);
+            var reg1 = "YYYY-MM-DD HH:mm:ss";
+            for (i = 0; i < json_obj.data.length; i++)
+            {
+                pushdata(moment(json_obj.data[i].time, reg1).valueOf(), json_obj.data[i].free, free);
+            }
+            free.update();
+        }
+
+
+        httpGetAsync("http://222.188.110.76:18881/log/json?number=" + num, update_cam);
+        httpGetAsync("http://222.188.110.76:18881/log/weed?number=" + num, update_free);
+    }
+
+    $(document).ready(function () {
+        var ch = document.documentElement.clientHeight;
+        var main_box_height = ch * 0.40;
+        var main_box_width = main_box_height * 2;
+        var left_margin_right = ch * 0.04;
+
+        var all_width = main_box_width * 2 + 4 + left_margin_right;
+        var all_margin_up_bo = ch * 0.08;
+        var top_margin_bo = ch * 0.04;
+
+
+        console.log(ch* 0.3);
+        $(".main_box").height(main_box_height).width(main_box_width);
+        //$(".all").css("marginTop", ch * 0.16 + "px").height(ch * 0.66);
+        $(".all").width(all_width).css("margin", all_margin_up_bo + "px auto");
+        $(".top").css("marginBottom", top_margin_bo);
+        $(".left").css("marginRight", left_margin_right);
+
+        update_con(50);
+        $("#getlog").click(
+            function () {
+                $('#all').remove();
+                $('#free').remove();
+                $('#offline').remove();
+                $('#all_box').append('<canvas id="all"><canvas>');
+                $('#free_box').append('<canvas id="free"><canvas>');
+                $('#offline_box').append('<canvas id="offline"><canvas>');
+                update_con($("#n1").val());
+            }
+        )
+    });
+</script>
+</body>
+</html>
