@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>moment.js测试</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<body>
+<script>
+    var s = "Fri Dec  7 15:47:04 2018";
+    var reg = "ddd MMM DD HH:mm:ss gggg";
+    c = moment(s, reg);
+    console.log(c.valueOf());
+</script>
+</body>
+</html>

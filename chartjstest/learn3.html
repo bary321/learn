@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="Chart.bundle.js"></script>
+    <script src="Chart.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 10px red ;
+        }
+        canvas{
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+</head>
+<body>
+<div class="canvas_hold" style="float: left; box-sizing: border-box;"><canvas id="myChart"></canvas></div>
+<!---<div style="position: relative; height:40vh; width:80vw"></div>--->
+<div class="canvas_hold" style="float: left; box-sizing: border-box"><canvas id="myChart2"></canvas></div>
+<div class="canvas_hold" style="float: left; border: 1px red solid; box-sizing: border-box"><canvas ></canvas></div>
+<div class="canvas_hold" style="float: left; border: 1px red solid; box-sizing: border-box"><canvas ></canvas></div>
+<script>
+    /**
+     * @return {string}
+     */
+    function Get(yourUrl){
+        var Httpreq = new XMLHttpRequest(); // a new request
+        Httpreq.open("GET",yourUrl,false);
+        Httpreq.send(null);
+        return Httpreq.responseText;
+    }
+    var json_obj = JSON.parse(Get("http://222.188.110.76:18881/log/json?number=500"));
+    console.log("this is the author name: "+json_obj);
+    console.log(json_obj.data);
+    var reg = "ddd MMM DD HH:mm:ss gggg";
+    var ctx = document.getElementById('myChart').getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: "摄像头总数",
+                borderColor: "#80b6f4",
+                fill: false,
+                data: []
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    time: {
+                        displayFormats: {
+                            quarter: 'MMM YYYY'
+                        }}},
+                ],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: '摄像头数目（个）'
+                    },
+                    ticks: {
+                        beginAtZero:false
+                    }
+                }]
+            }
+        }
+    });
+    function pushdata(label, data1) {
+        myChart.data.labels.push(label);
+        myChart.data.datasets[0].data.push(data1);
+
+    }
+    var i = 0;
+
+    for (; i < json_obj.data.length; i++)
+    {
+        console.log(moment(json_obj.data[i].time, reg).valueOf());
+        //pushdata(json_obj.data[i].time, json_obj.data[i].total);
+        pushdata(moment(json_obj.data[i].time, reg).valueOf(), json_obj.data[i].total);
+    }
+    myChart.update();
+    var ctx1 = document.getElementById('myChart2').getContext("2d");
+    var myChart1 = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: "摄像头掉线数",
+                borderColor: "#80b6f4",
+                fill: false,
+                data: []
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+
+                    unit: 'day',
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: '摄像头数目（个）'
+                    },
+                    ticks: {
+                        beginAtZero:false
+                    }
+                }]
+            }
+        }
+
+    });
+    function pushdata1(label, data1) {
+        myChart1.data.labels.push(label);
+        myChart1.data.datasets[0].data.push(data1);
+
+    }
+    var i = 0;
+    for (; i < json_obj.data.length; i++)
+    {
+        pushdata1(moment(json_obj.data[i].time, reg).valueOf(), json_obj.data[i].offline);
+    }
+    myChart1.update();
+
+
+    var cw = document.documentElement.clientWidth;
+    var x = document.getElementsByClassName("canvas_hold");
+    console.log("cw", cw);
+    for (i = 0; i < x.length; i ++)
+    {
+        x[i].style.width= cw/2 - 16 + "px";
+        x[i].style.height= (cw/2 -16)/2 + "px";
+    }
+</script>
+</body>
+</html>

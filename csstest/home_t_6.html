@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>布局测试</title>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+        div {
+            border: 1px red solid;
+        }
+        all {
+            margin: 0px auto;
+        }
+        .main_box {
+            float: left;
+        }
+        .clearfix {
+            zoom: 1;
+        }
+        .clearfix::after {
+            content: "";
+            display: block;
+            visibility: hidden;
+            height: 0;
+            clear: both;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            var ch = document.documentElement.clientHeight;
+            var main_box_height = ch * 0.40;
+            var main_box_width = main_box_height * 2;
+            var left_margin_right = ch * 0.04;
+
+            var all_width = main_box_width * 2 + 4 + left_margin_right;
+            var all_margin_up_bo = ch * 0.08;
+            var top_margin_bo = ch * 0.04;
+
+
+            console.log(ch* 0.3);
+            $(".main_box").height(main_box_height).width(main_box_width);
+            //$(".all").css("marginTop", ch * 0.16 + "px").height(ch * 0.66);
+            $(".all").width(all_width).css("margin", all_margin_up_bo + "px auto");
+            $(".top").css("marginBottom", top_margin_bo);
+            $(".left").css("marginRight", left_margin_right);
+        });
+    </script>
+</head>
+<body>
+<div class="all clearfix">
+    <div class="main_box top left"><canvas id="offline"></canvas></div>
+    <div class="main_box top"><canvas id="all"></canvas></div>
+    <!---<div class="clearfix"></div>--->
+    <div class="main_box left"><canvas id="free"></canvas></div>
+    <div class="main_box"><canvas id="test"></canvas></div>
+</div>
+</body>
+</html>

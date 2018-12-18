@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>盐城首页演示例子</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .all {
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+            border-color: aqua;
+            background-color: #87c7ff;
+        }
+        div {
+            border: 1px red solid;
+            box-sizing: border-box;
+        }
+        .navigation {
+            height: 10%;
+            background-color: brown;
+        }
+        .middle {
+            float: left;
+            height: 80%;
+        }
+        .left {
+            width: 60%;
+        }
+        .right {
+            width: 40%;
+        }
+        .input {
+            clear: both;
+            height: 10%;
+        }
+    </style>
+</head>
+<body id="body">
+<div class="all">
+    <div class="navigation"><a>在线</a><a>不在线</a><a>防火墙设置</a><a>注销</a></div>
+    <div class="middle left">画布所在区域<canvas>在线，不在线曲线展示区</canvas></div>
+    <div class="middle right">
+        <table border="1" style="text-align: center;border-collapse:collapse" class="auto">
+            <thead>
+            <tr>
+                <td>TTL</td>
+                <td>3</td>
+                <td>5</td>
+                <td>7</td>
+                <td>15</td>
+                <td>30</td>
+                <td>31</td>
+                <td>60</td>
+                <td>90</td>
+                <td>总计</td>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td>设计摄像头数目</td>
+                <td>0</td>
+                <td>0</td>
+                <td>846</td>
+                <td>762</td>
+                <td colspan="2">2192</td>
+                <td>0</td>
+                <td>150</td>
+                <td>3950</td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr>
+                <td>目前摄像头数目</td>
+                <td>ttl3</td>
+                <td>ttl5</td>
+                <td>ttl7</td>
+                <td>ttl15</td>
+                <td colspan="2">ttl30</td>
+                <td>ttl60</td>
+                <td>ttl90</td>
+                <td>total</td>
+            </tr>
+            </tbody>
+        </table>
+        <table border="1" style="text-align: center;border-collapse:collapse; margin-top: 12px" class="auto">
+            <thead>
+            <tr>
+                <td></td>
+                <td>dc1</td>
+                <td>dc2</td>
+                <td>dc3</td>
+                <td>dc4</td>
+                <td>dc5</td>
+                <td>dc6</td>
+                <td>dc7</td>
+                <td>dc8</td>
+                <td>DF</td>
+                <td>白天</td>
+                <td>黑夜</td>
+                <td>总计</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Free</td>
+                <td> dc1free </td>
+                <td> dc2free </td>
+                <td> dc3free </td>
+                <td> dc4free </td>
+                <td> dc5free </td>
+                <td> dc6free </td>
+                <td> dc7free </td>
+                <td> dc8free </td>
+                <td> DFfree </td>
+                <td> dayfree </td>
+                <td> nightfree </td>
+                <td> Tfree </td>
+            </tr>
+            <tr>
+                <td>Max</td>
+                <td> dc1max </td>
+                <td> dc2max </td>
+                <td> dc3max </td>
+                <td> dc4max </td>
+                <td> dc5max </td>
+                <td> dc6max </td>
+                <td> dc7max </td>
+                <td> dc8max </td>
+                <td> DFmax </td>
+                <td> daymax </td>
+                <td> nightmax </td>
+                <td> Tmax </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>正常数值</td>
+                <td>2674</td>
+                <td>2674</td>
+                <td>1535</td>
+                <td>1536</td>
+                <td>8476</td>
+                <td>8323</td>
+                <td>635</td>
+                <td>635</td>
+                <td>1356</td>
+                <td>13320</td>
+                <td>13168</td>
+                <td>27844</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="input"><form><input type="text" autofocus placeholder="用户名" ><input type="password" placeholder="密码"><button type="submit">提交</button></form></div>
+</div>
+<div id="id"></div>
+<script>
+    console.log(screen.availWidth);
+    console.log(screen.availHeight);
+    console.log(document.documentElement.clientHeight);
+    var sh = screen.availHeight;
+    var ch = document.documentElement.clientHeight;
+    document.getElementById("body").style.height = ch + "px";
+
+</script>
+</body>
+</html>

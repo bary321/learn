@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>布局练习</title>
+</head>
+<style>
+    /* 导航 */
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    ul {
+        list-style-type: none;
+        overflow: hidden;
+        background-color: #333;
+        position: fixed;
+    }
+
+    li {
+        float: left;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 86px;
+        text-decoration: none;
+    }
+
+    li a:hover {
+        background-color: #111;
+    }
+    #right {
+        float: right;
+        padding-right: 1px;
+    }
+</style>
+<body>
+<div style="display: block">
+<ul>
+    <li><a href="#">在线</a></li>
+    <li><a href="#">不在线</a></li>
+    <li><a href="#">防火墙</a></li>
+    <li id="right"><a href="#">注销</a></li>
+</ul>
+</div>
+<p style="height: 1000px; margin-top: 48px;"></p>
+</body>
+</html>

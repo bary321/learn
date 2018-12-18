@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>菜鸟教程(runoob.com)</title>
+</head>
+<body>
+
+<p id="demo"></p>
+<div id="mydiv">ni ma bi</div>
+<script>
+
+    function fuc1(a, b) {
+        return a * b
+    }
+
+    document.getElementById("demo").innerHTML = "Joh\n" +
+        " Doe";
+    var k, ll, s="ss";
+    var k, ll, s;
+    k = 1e3;    //k = k * 10;
+    ll = 20;
+    document.write("<p>");
+    document.write(fuc1(k, ll));
+    document.write("</p>");
+    <!--document.writeln(k);-->
+    document.writeln(s);
+    console.log(k);
+    document.getElementById("mydiv").innerHTML = "gai bian div";
+
+    var nums = [1, 2, 3,5, ];
+
+    document.writeln(nums)
+    var nums = new Array(1, 2, 3);
+    document.writeln(nums)
+    var bary = {firstname: "wang"};
+    document.writeln(bary["firstname"]);
+
+    bary = null;
+    document.writeln(bary);
+
+    var nt = new Number;
+    nt = "1";
+    document.writeln(nt);
+
+    console.log(window.var1, "......");
+
+    var var1 = 1;
+    var2 = 2;
+
+    console.log(this.var1);
+    console.log(window.var1);
+    console.log(delete var1);
+    console.log(var1);
+    delete var2;
+    console.log(delete var2);
+    console.log(delete var2);
+    console.log(delete var2);
+    //console.log(var2)
+
+
+    function dss() {
+        varname = "111"
+    }
+    dss()
+    console.log(window.varname);
+
+</script>
+
+</body>
+</html>

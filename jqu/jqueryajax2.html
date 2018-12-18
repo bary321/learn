@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){
+                $("#div1").load("/try/ajax/demo_test.txt",function(responseTxt,statusTxt,xhr){
+                    if(statusTxt=="success")
+                        document.writeln(statusTxt);
+                        alert("外部内容加载成功!");
+                    if(statusTxt=="error")
+                        alert("Error: "+xhr.status+": "+xhr.statusText);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="j_10086_iotapp" data-host="https://open.iot.10086.cn" data-view="5bcbe1f8579d6a3cb5daf140d1e92161" data-pid="189510" data-appid="50835" style="height:300px;width:500px;"></div><script src="//open.iot.10086.cn/static/files/develop/appembed2.js?v=3.0"></script>
+<div id="div1"><h2>使用 jQuery AJAX 修改该文本</h2></div>
+<button>获取外部内容</button>
+
+</body>
+</html>

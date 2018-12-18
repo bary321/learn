@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $("p").hide("slow", function () {
+                    alert("我们隐藏了一个段落")
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<button>消失</button>
+<p>用jquery让这个段落消失</p>
+</body>
+</html>
