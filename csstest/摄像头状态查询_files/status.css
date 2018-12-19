@@ -1,0 +1,11 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+body {background: #eeedc9}
+.noshow {visibility: hidden}
+.NO {color: black; background: burlywood;}
+table {border-collapse: collapse}
+thead {background: #eeedc9
+}
+td {border: 1px solid black}
